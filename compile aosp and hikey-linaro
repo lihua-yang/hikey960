@@ -1,0 +1,121 @@
+首先最有用的就是官方文档了，附上Google的官网地址。https://source.android.com/source/devices
+
+官网上的说明是简明概要的，但是在我们的编译过程中其实可能会遇到各种奇奇怪怪的问题。下面就一些 我们踩过的雷给排掉。
+
+（一）首先就是下载aosp和hikey-linaro的源码。
+
+aosp比较大，压缩后都有60G左右，解压后有115G左右。hikey-linaro压缩不超过2G。这两个源码官网上 可以下载，但是要翻墙！！！好在校园网ipv6可以直连Google，但是我在实验室下载很慢，据说寝室下载 要快一些。hikey-linaro我们下载的master分支，前期编译4.4版本，后期编译4.9版本。以下描述二个版本可以通用。
+
+
+
+（二）编译aosp源码。（括号内内容对应de21上的目录）
+
+（cd /mnt/aosp）
+
+. ./build/envsetup.sh //注意2个点之间有空格
+
+lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没有编译成功engineer模式
+
+make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
+
+
+
+（三）编译Hikey-linaro源码
+
+（cd /mnt/hikey-linaro-google/hikey-linaro/）
+
+1.git checkout -b android-hikey-linaro-4.9 origin/android-hikey-linaro-4.9 //我的理解是在 master下切到4.9分支，若编译的是4.4分支，将4.9改为4.4就好。踩雷1：出现4.9分支已存在<具体的 error statement我不记得了，这是一篇总结性文章>。排雷：rm .git/refs/heads/your_branch_name， 进入到heads目录删掉Android-hikey-linaro-4.9分支<大概叫这个名字>
+
+2.make ARCH=arm64 hikey960_defconfig //设置配置，在第一次编译时做过后.config生成，之后再做时 可以不用做这句话。踩雷2：这句话是生成.config文件，之后在adb shell里mount f2fs时报错无法挂载 ，因为transport endpoint等等的坑要在这里填。是因为没有配置F2FS的编译configuration。vim  hikey-linaro/arch/arm64/configs/hikey960_defconfig,添加如下内容：
+
+CONFIG_F2FS_FS=y //这句一般有
+
+CONFIG_F2FS_STAT_FS=y
+
+CONFIG_F2FS_FS_ATTR=y
+
+CONFIG_F2FS_POSIX_ACL=y
+
+CONFIG_F2FS_FS_SECURITY=y //在这里这句是关键
+
+CONFIG_F2FS_CHECK_FS=y //这几句为之后的工作做准备
+
+CONFIG_F2FS_IO_TRACE=y
+
+    然后再make就会在.config文件里看到编译F2FS的有关配置。
+
+3.make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- //交叉编译，这一句很重要。成不成就看是不是编译successfully。踩雷3：在服务器上交叉编译安卓内核源码，前期老是报错找不到编译器， Google后可能需要下载对应的编译器，但是有两句话比较神，至于为什么比较神我现在还无法解释。就是在之前编译aosp的目录做以下两句话：<cd /mnt/aosp> 
+
+        source build/envsetup.sh
+
+        lunch hikey960-userdebug
+
+之后再做就没有问题了。我的理解是进入之前编译aosp的目录修改了编译环境，使得可以编译安卓内核。
+
+
+
+（四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：
+
+cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb /mnt/aosp/device/linaro/hikey-kernel
+
+cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/Image.gz /mnt/aosp/device/linaro/hikey-kernel
+
+cd /mnt/aosp/device/linaro/hikey-kernel
+
+mv hi3660-hikey960.dtb hi3660-hikey960.dtb-4.9
+
+mv Image.gz  Image.gz-hikey960-4.9
+
+
+
+（五）生成boot.img和dt.img。目前我们的操作只要刷boot.img。如果是要刷整个板子的话，那么要按官方文档上的做全套。
+
+cd /mnt/aosp/
+
+make bootimage
+
+make bootimage out/target/product/hikey960/dt.img
+
+
+
+（六）利用x-ftp将boot.img传递到自己的电脑主机。当然直接在服务器上fastboot和adb调试也是可以的，但是跑到小机房去比较麻烦。
+
+cd out//target/product/hikey960/
+
+在主机windows桌面上建立一个放boot.img的文件夹或直接放到桌面上，随自己开心吧。拨3，拨到与1方向一致
+
+fastboot flash boot 你放boot.img的目录/boot.img
+
+fastboot flash dts 你放dt.img的目录/dt.img
+
+成功会显示刷进去多少s，时间很短。
+
+
+
+（七）adb调试。<此时将3拨回来>。管理员身份运行cmd，进入adb.exe路径，可以将fastboot和adb加入PATH，这样可以cmd之后直接fastboot和adb操作。
+
+adb devices //连接上数据会出现0123456789...DEF
+
+adb shell  //进入adb调试
+
+adb root //获得root权限，在往hikey960中push文件，即写操作时需要权限
+
+adb push D:\...windows上放test.txt文件的目录 /data/f2fs //将测试文件push到指定目录，相当于是写文件
+
+adb shell进入调试模式后：
+
+su  //获得root权限
+
+mount -o remount,rw /dev/block/sdd14 /data  //修改/data所在的权限，使得可以读写。在/data下
+
+mkdir /data/f2fs作为挂载点。
+
+mkfs.f2fs -l f2fs /dev/block/sdd13 //将指定分区sdd13格式化为f2fs，在再次开机后挂载时这句话可以不做。
+
+mount -t f2fs /dev/block/sdd13 /data/f2fs //挂载f2fs
+
+dmesg //此时dmesg可以看到打印出来的挂载信息
+
+cd /data/f2fs
+
+cat test.txt //可以读取指定文件的内容
