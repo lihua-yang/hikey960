@@ -17,7 +17,7 @@ aosp比较大，压缩后都有60G左右，解压后有115G左右。hikey-linaro
 
 . ./build/envsetup.sh //注意2个点之间有空格
 
-lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没有编译成功engineer模式
+lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没有编译成功engineer模式。也可以是lunch hikey960-eng
 
 make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 
