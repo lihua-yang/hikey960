@@ -1,0 +1,4 @@
+参考网站：https://github.com/96boards-hikey/partition-table-tool
+
+1.在网站https://github.com/96boards-hikey/partition-table-tool上将工具下载放在PC或服务器上解压
+2.新添加分区，首先在hisi_partition.h中新增分区宏（分区名）,下图红色为新增
