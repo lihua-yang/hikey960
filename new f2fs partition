@@ -47,3 +47,15 @@ fastboot flash system system.img
 fastboot flash cache cache.img
 fastboot flash userdata userdata.img
 fastboot reboot
+
+
+9.新建分f2fs
+先修改system为可读写，才能push mkfs.f2fs进去
+adb push E:\mkfs.f2fs /system/bin 
+
+在data分区下新建f2fs分区
+mount -o remount,rw /dev/block/sdd14 /data
+mkdir f2fs
+mkfs.f2fs /dev/block/sdd13
+mount -t f2fs /dev/block/sdd13 /data/f2fs
+mount -o remount,rw /dev/block/sdd10 /system
