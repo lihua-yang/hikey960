@@ -1,4 +1,49 @@
 参考网站：https://github.com/96boards-hikey/partition-table-tool
 
 1.在网站https://github.com/96boards-hikey/partition-table-tool上将工具下载放在PC或服务器上解压
-2.新添加分区，首先在hisi_partition.h中新增分区宏（分区名）,下图红色为新增
+2.新添加分区，首先在hisi_partition.h和partition.h中新增分区宏（分区名）
+  vim hisi_partition.h
+  
+  #define PART_RESERVED                  "reserved"
+  #define PART_RESERVED2                 "reserved2" //新增
+  #endif
+  
+  vim partition.h 
+  {PART_RESERVED,         5843*1024, 1024,            UFS_PART_3},/* reserved      1M    sdd12 */
+  {PART_RESERVED2,         5844*1024, (12288UL)*1024,  UFS_PART_3},/* RESERVED2     12G   sdd13 */ //新增
+  {PART_USERDATA,         18132*1024, (12358UL)*1024,  UFS_PART_3},/* USERDATA      12G  sdd14 */
+  {"0", 0, 0, 0},
+
+3.make,生成efipartition.d  efipartition.o
+4.生成ptable.img
+  ./efipartition hisi-ptable.img
+ 
+5.修改后需要同步修改文件device/linaro/hikey/hikey960/BoardConfig.mk
+  ./hikey/hikey960/BoardConfig.mk:19:BOARD_USERDATAIMAGE_PARTITION_SIZE := 25769803776 # 24GB    
+  //修改为12884901888 #12G
+  还要修改文件/device/linaro/hikey/hikey960/fstab.hikey960
+ :13: /dev/block/sdd14    /data      ext4    
+    discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1    wait //sdd13对应改为sdd14
+    
+6.重新烧写boot.img userdata.img和ptable.img，建议system cache等镜像也重新烧一下
+7.用上面生成的hisi-ptable.img替换device/linaro/hikey/installer/hikey960下的hisi-ptable.img内容
+
+8.用device/linaro/hikey/installer/hikey960下的flash-glove.sh,刷进板子
+#fastboot oem erase_storage_all
+
+#/device/linaro/hikey/installer/hikey960
+fastboot flash ptable hisi-ptable.img
+fastboot flash xloader hisi-sec_xloader.img
+fastboot flash fastboot hisi-fastboot.img
+fastboot reboot-bootloader
+fastboot flash nvme nvme.img
+fastboot flash fw_lpm3 lpm3.img
+fastboot flash trustfirmware bl31.bin
+
+#/out/target/product/hikey960
+fastboot flash boot boot.img
+fastboot flash dts dt.img
+fastboot flash system system.img
+fastboot flash cache cache.img
+fastboot flash userdata userdata.img
+fastboot reboot
