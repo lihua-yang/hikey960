@@ -1,0 +1,25 @@
+在想办法在data分区下分12G为f2f后，还是想把整个data格式化f2fs。主要参考hikey960社区
+https://discuss.96boards.org/t/f2fs-filesystem-support-on-hikey960/3685
+
+1.把整个/data分区24G都格式化为f2fs。
+所以partion-table-tool中相关的选项不用修改，仍然是24G的sdd13的data分区。
+很重要的是，
+cd /home/ylh/aosp/device/linaro/hikey/hikey960
+vim fstab.hikey960 
+修改“dev/block/sdd13 /data f2fs nosuid,nodev,discard wait”
+vim BoardConfig.mk
+添加
+TARGET_USERIMAGES_USE_F2FS := true
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+
+cd /home/ylh/aosp/device/linaro/hikey
+vim BoardConfigCommon.mk
+修改
+#add
+TARGET_USERIMAGES_USE_F2FS := true
+#end
+
+2. hikey-linaro中，要使得kernel支持F2FS，配置F2FS的相关属性。
+
+3.编译整个aosp时，
+make BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE=f2fs TARGET_USERIMAGES_USE_F2FS=true -j32
