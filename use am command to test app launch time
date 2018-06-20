@@ -1,0 +1,11 @@
+Am应用启动时间：
+1.	列出所有的包名
+2.	找到对应的安装包启动时的事务项（或者说句柄）
+3.	Am start这个安装包的启动句柄，看花费多少时间
+4.	最后停止这个事务
+
+pm list package 
+dumpsys package com.android.music | grep -C 5 category.LAUNCHER
+am start -W com.android.music/.MusicBrowserActivity
+am force-stop com.android.music
+
