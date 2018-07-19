@@ -21,6 +21,8 @@ lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没
 
 make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 
+error: Your local changes to the following files would be overwritten by checkout
+git add .
 
 
 （三）编译Hikey-linaro源码
@@ -30,6 +32,9 @@ make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 1.git checkout -b android-hikey-linaro-4.9 origin/android-hikey-linaro-4.9 //我的理解是在 master下切到4.9分支，
 若编译的是4.4分支，将4.9改为4.4就好。踩雷1：出现4.9分支已存在<具体的 error statement我不记得了，这是一篇总结性文章>。
 排雷：rm .git/refs/heads/your_branch_name， 进入到heads目录删掉Android-hikey-linaro-4.9分支<大概叫这个名字>
+
+
+
 
 2.make ARCH=arm64 hikey960_defconfig //设置配置，在第一次编译时做过后.config生成，之后再做时 可以不用做这句话。
 踩雷2：这句话是生成.config文件，之后在adb shell里mount f2fs时报错无法挂载 ，因为transport endpoint等等的坑要在这里填。
