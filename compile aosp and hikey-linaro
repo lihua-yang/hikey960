@@ -22,6 +22,7 @@ lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没
 make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 
 error: Your local changes to the following files would be overwritten by checkout
+git commit -m "a"
 git add .
 
 
@@ -56,7 +57,7 @@ CONFIG_F2FS_IO_TRACE=y
 
     然后再make就会在.config文件里看到编译F2FS的有关配置。
 
-3.make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- //交叉编译，这一句很重要。成不成就看是不是编译successfully。
+3.make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -24//交叉编译，这一句很重要。成不成就看是不是编译successfully。
 踩雷3：在服务器上交叉编译安卓内核源码，前期老是报错找不到编译器， Google后可能需要下载对应的编译器，但是有两句话比较神，
 至于为什么比较神我现在还无法解释。就是在之前编译aosp的目录做以下两句话：<cd /mnt/aosp> 
 
