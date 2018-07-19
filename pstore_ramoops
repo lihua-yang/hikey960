@@ -2,4 +2,40 @@ https://wenku.baidu.com/view/6d55bb48195f312b3169a5e2.html
 
 当板子panic时，怎么查看宕机前的log，找到出错的函数
 
-比如手动
+比如手动使系统崩溃：
+ echo c > /proc/sysrq-trigger
+ 
+ 或是其他的错误使系统panic
+ 
+然后，切记！使板子重启要用
+
+fastboot reboot
+
+然后
+cd /sys/fs/pstore
+ls
+会看到几个log文件，比如
+hikey960:/sys/fs/pstore # ls
+console-ramoops-0 dmesg-ramoops-0 dmesg-ramoops-1
+
+然后
+cat console-ramoops-0
+就可以看到log内容了
+
+比如
+[   73.531139] [<ffffff800861d088>] sysrq_handle_crash+0x28/0x34
+[   73.531145] [<ffffff800861d66c>] __handle_sysrq+0x12c/0x19c
+[   73.531148] [<ffffff800861dad8>] write_sysrq_trigger+0x68/0x78
+[   73.531159] [<ffffff80082d15e4>] proc_reg_write+0x88/0xf4
+[   73.531169] [<ffffff80082565d0>] vfs_write+0xb4/0x1d8
+[   73.531172] [<ffffff80082567f8>] SyS_write+0x54/0xb0
+[   73.531181] [<ffffff8008083730>] el0_svc_naked+0x24/0x28
+[   73.531185] Code: 52800020 b906f820 d5033e9f d2800001 (39000020)
+[   73.531193] ---[ end trace 90f4cede703e7770 ]---
+[   73.543171] Kernel panic - not syncing: Fatal exception
+[   73.543177] SMP: stopping secondary CPUs
+[   73.546078] Kernel Offset: disabled
+[   73.546081] Memory Limit: none
+[   74.923899] Rebooting in 5 seconds..
+
+打印了系统panic前的log
