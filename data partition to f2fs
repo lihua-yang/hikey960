@@ -23,3 +23,21 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 3.编译整个aosp时，
 make BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE=f2fs TARGET_USERIMAGES_USE_F2FS=true -j32
+
+
+#/device/linaro/hikey/installer/hikey960
+fastboot flash ptable hisi-ptable.img
+fastboot flash xloader hisi-sec_xloader.img
+fastboot flash fastboot hisi-fastboot.img
+fastboot reboot-bootloader
+fastboot flash nvme nvme.img
+fastboot flash fw_lpm3 lpm3.img
+fastboot flash trustfirmware bl31.bin
+
+#/out/target/product/hikey960
+fastboot flash boot boot.img
+fastboot flash dts dt.img
+fastboot flash system system.img
+fastboot flash cache cache.img
+fastboot flash userdata userdata.img
+fastboot reboot
