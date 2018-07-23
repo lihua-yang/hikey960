@@ -1,1 +1,12 @@
-zai anzhao qia
+按照之前说的方法生成ptable.img
+
+有几个地方要特别注意
+1. partition.h中data分区的大小要对应好，若是24G的，大小也要固定为24G大小
+
+2. 重新编译hikey-linaro时，要格外注意.config中是不是有F2FS对应的配置
+
+3. hisi-ptable.img要复制到aosp目录下编译
+
+4.编译aosp要用到
+make BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE=f2fs TARGET_USERIMAGES_USE_F2FS=true -j32
+
