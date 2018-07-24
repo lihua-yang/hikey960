@@ -18,7 +18,7 @@
 4.生成ptable.img
   ./efipartition hisi-ptable.img
  
-5.修改后需要同步修改文件device/linaro/hikey/hikey960/BoardConfig.mk
+5.修改后需要同步修改文件aosp/device/linaro/hikey/hikey960/BoardConfig.mk
   ./hikey/hikey960/BoardConfig.mk:19:BOARD_USERDATAIMAGE_PARTITION_SIZE := 25769803776 # 24GB    
   //修改为12884901888 #12G
   还要修改文件/device/linaro/hikey/hikey960/fstab.hikey960
