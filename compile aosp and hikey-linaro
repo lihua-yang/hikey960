@@ -68,6 +68,8 @@ CONFIG_F2FS_IO_TRACE=y
 一个新的文件夹解压后编译时，报错找不到某个文件。
 arch/arm64/boot/dts/arm/juno.dts:11:54: fatal error: dt-bindings/interrupt-controller/arm-gic.h:
 No such file or directory
+
+cd arch/arm64/boot/dts/arm/
 ln -s ../../../../../include/dt-bindings dt-bindings
 
 （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
