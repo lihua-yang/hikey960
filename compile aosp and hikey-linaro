@@ -59,6 +59,17 @@ CONFIG_F2FS_IO_TRACE=y
     CONFIG_F2FS_STAT_FS=y
     CONFIG_F2FS_FS_SECURITY=y
     CONFIG_F2FS_FS_ENCRYPTION=y
+    
+    所有都有：
+    CONFIG_F2FS_FS=y
+CONFIG_F2FS_STAT_FS=y
+CONFIG_F2FS_FS_ATTR=y
+CONFIG_F2FS_POSIX_ACL=y
+CONFIG_F2FS_FS_SECURITY=y
+CONFIG_F2FS_IO_TRACE=y
+CONFIG_F2FS_CHECK_FS=y
+CONFIG_F2FS_FS_ENCRYPTION=y
+CONFIG_F2FS_FAULT_INJECTION=y
 
 3.make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24//交叉编译，这一句很重要。成不成就看是不是编译successfully。
 踩雷3：在服务器上交叉编译安卓内核源码，前期老是报错找不到编译器， Google后可能需要下载对应的编译器，但是有两句话比较神，
