@@ -9,7 +9,12 @@ aosp比较大，压缩后都有60G左右，解压后有115G左右。hikey-linaro
 好在校园网ipv6可以直连Google，但是我在实验室下载很慢，据说寝室下载 要快一些。hikey-linaro我们下载的master分支，前期编译4.4版本，
 后期编译4.9版本。以下描述二个版本可以通用。
 
+下载清华的hikey-linaro镜像
+aosp配套的内核代码
+git clone https://aosp.tuna.tsinghua.edu.cn/kernel.common.git
 
+hikey专用内核镜像
+git clone heeps://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro.git
 
 （二）编译aosp源码。（括号内内容对应de21上的目录）
 
