@@ -51,6 +51,7 @@ CONFIG_F2FS_POSIX_ACL=y
 CONFIG_F2FS_FS_SECURITY=y
 CONFIG_F2FS_CHECK_FS=y
 CONFIG_F2FS_IO_TRACE=y
+CONFIG_F2FS_FS_ENCRYPTION=y
 
     然后再make就会在.config文件里看到编译F2FS的有关配置。
     根据ext4的相关设置，简化这部分的设置
