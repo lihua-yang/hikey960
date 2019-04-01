@@ -42,7 +42,7 @@ git add .
 
 2.make ARCH=arm64 hikey960_defconfig //设置配置，在第一次编译时做过后.config生成，之后再做时 可以不用做这句话。
 踩雷2：这句话是生成.config文件，之后在adb shell里mount f2fs时报错无法挂载 ，因为transport endpoint等等的坑要在这里填。
-是因为没有配置F2FS的编译configuration。vim  hikey-linaro/arch/arm64/configs/hikey960_defconfig,添加如下内容：
+是因为没有配置F2FS的编译configuration。vim  arch/arm64/configs/hikey960_defconfig,添加如下内容：
 
 CONFIG_F2FS_FS=y 
 CONFIG_F2FS_STAT_FS=y
