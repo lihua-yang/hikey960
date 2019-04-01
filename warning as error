@@ -1,4 +1,4 @@
-log:
+log:cc1: some warnings being treated as errors
 need_SSR,get_node_info等声明在f2fs.h中的文件，找不到函数定义，报错。
 
 尝试1：
