@@ -1,5 +1,16 @@
 log:cc1: some warnings being treated as errors
 LD built_in.o error
+fs/built-in.o: In function `preallocation_vblock_check':
+/home/ylh/ICPP/hikey-linaro/fs/f2fs/file_preallocate.c:124: undefined reference to `need_SSR'
+fs/built-in.o: In function `get_dnode_by_pgofs':
+/home/ylh/ICPP/hikey-linaro/fs/f2fs/file_preallocate.c:276: undefined reference to `get_dnode_of_data'
+/home/ylh/ICPP/hikey-linaro/fs/f2fs/file_preallocate.c:287: undefined reference to `get_node_info'
+fs/built-in.o: In function `alloc_blockaddr':
+/home/ylh/ICPP/hikey-linaro/fs/f2fs/file_preallocate.c:325: undefined reference to `f2fs_wait_discard_bio'
+fs/built-in.o: In function `update_summary_entry':
+/home/ylh/ICPP/hikey-linaro/fs/f2fs/file_preallocate.c:355: undefined reference to `update_meta_page'
+make: *** [vmlinux] Error 1
+
 need_SSR,get_node_info等声明在f2fs.h中的文件，找不到函数定义，报错。
 
 尝试1：
