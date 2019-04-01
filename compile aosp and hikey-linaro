@@ -44,18 +44,12 @@ git add .
 踩雷2：这句话是生成.config文件，之后在adb shell里mount f2fs时报错无法挂载 ，因为transport endpoint等等的坑要在这里填。
 是因为没有配置F2FS的编译configuration。vim  hikey-linaro/arch/arm64/configs/hikey960_defconfig,添加如下内容：
 
-CONFIG_F2FS_FS=y //这句一般有
-
+CONFIG_F2FS_FS=y 
 CONFIG_F2FS_STAT_FS=y
-
 CONFIG_F2FS_FS_ATTR=y
-
 CONFIG_F2FS_POSIX_ACL=y
-
-CONFIG_F2FS_FS_SECURITY=y //在这里这句是关键
-
-CONFIG_F2FS_CHECK_FS=y //这几句为之后的工作做准备
-
+CONFIG_F2FS_FS_SECURITY=y
+CONFIG_F2FS_CHECK_FS=y
 CONFIG_F2FS_IO_TRACE=y
 
     然后再make就会在.config文件里看到编译F2FS的有关配置。
