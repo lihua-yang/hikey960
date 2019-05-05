@@ -1,3 +1,4 @@
+问题：代码打上patch后，编译报错。之前合上patch不会报错，近期才出现莫名其妙的问题。
 log:cc1: some warnings being treated as errors
 LD built_in.o error
 fs/built-in.o: In function `preallocation_vblock_check':
@@ -41,3 +42,5 @@ perf (such as v4.14) with a very new compiler you can add WERROR=0 to
 prevent any newly introduced warnings from causing the build to fail.
 
 (cd tools/perf; make WERROR=0)
+
+真实原因：因为F2FS工程的patch在不断更新，需要保证打patch的旧版本是一样，否则会因为一些结构和函数更新导致冲突。分析源代码解决这些冲突就可以了。
