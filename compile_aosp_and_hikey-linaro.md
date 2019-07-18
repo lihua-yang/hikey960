@@ -128,6 +128,23 @@ No such file or directory
 cd arch/arm64/boot/dts/include
 ln -s ../../../../../include/dt-bindings dt-bindings
 
+### QHW's way
+
+```
+cd hikey-linaro
+#查看有什么分支
+git branch -a
+#切换至分支android-hikey-linaro-4.19
+git checkout android-hikey-linaro-4.19
+#生成默认.config文件
+make ARCH=arm64 hikey960_defconfig
+#根据自己的需要进行配置
+make menuconfig
+#交叉编译
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24
+```
+
+
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
 cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb /mnt/aosp/device/linaro/hikey-kernel
