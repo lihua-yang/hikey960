@@ -42,7 +42,7 @@ git config --global user.email "you@example.com"
 repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest
 
 #This step may take a very long time
-repo sync -j4
+repo sync -j24
 
 #hikey-linaro
 git clone https://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro
@@ -50,6 +50,14 @@ git clone https://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro
 ```
 
 **其他资料：**
+
+**可能需要下载HDMI二进制文件**
+Download and extract HDMI binaries:
+$ wget https://dl.google.com/dl/android/aosp/arm-hikey960-OPR-cf4e0c80.tgz
+$ tar xzf arm-hikey960-OPR-cf4e0c80.tgz
+$ ./extract-arm-hikey960.sh
+我的做法是在能翻墙的电脑上把.tgz文件下载下来然后ftp传到linux服务器上
+
 aosp在github上的镜像：
 https://github.com/aosp-mirror
 
