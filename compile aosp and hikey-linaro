@@ -16,6 +16,13 @@ git clone https://aosp.tuna.tsinghua.edu.cn/kernel.common.git
 hikey专用内核镜像
 git clone heeps://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro.git
 
+其他可选下载方式：
+aosp在github上的镜像：
+https://github.com/aosp-mirror
+
+96系列板子的linaro-hikey在github上的镜像
+https://github.com/96boards-hikey/aosp-device-linaro-hikey
+
 （二）编译aosp源码。（括号内内容对应de21上的目录）
 
 （cd /mnt/aosp）
