@@ -16,12 +16,24 @@ git clone https://aosp.tuna.tsinghua.edu.cn/kernel.common.git
 hikey专用内核镜像
 git clone heeps://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro.git
 
-其他可选下载方式：
+**其他可选下载方式：**
 aosp在github上的镜像：
 https://github.com/aosp-mirror
 
-96系列板子的linaro-hikey在github上的镜像
+96系列板子的linaro-hikey在github上的镜像（补：这个好像是教程）
 https://github.com/96boards-hikey/aosp-device-linaro-hikey
+
+**补充一下从清华的镜像下载aosp和相关工具的方法（该方法非常好用）**
+详细资料参考：
+https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/
+
+* 正常方法只是因为无法翻墙才无法下载，但是可以将 https://android.googlesource.com/ 全部使用 https://aosp.tuna.tsinghua.edu.cn/ 代替即可。
+* 有一个步骤是repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest 该步骤无法完成的原因是repo这个脚本里面默认使用了google的REPO_URL。解法：vim repo，按照下面内容进行修改：
+
+···
+if not REPO_URL:
+  REPO_URL = 'https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+···
 
 （二）编译aosp源码。（括号内内容对应de21上的目录）
 
