@@ -1,22 +1,62 @@
+# Compile aosp and hikey-linaro
 
 首先最有用的就是官方文档了，附上Google的官网地址。https://source.android.com/source/devices
 
 官网上的说明是简明概要的，但是在我们的编译过程中其实可能会遇到各种奇奇怪怪的问题。下面就一些 我们踩过的雷给排掉。
 
-（一）首先就是下载aosp和hikey-linaro的源码。
+## （一）首先就是下载aosp和hikey-linaro的源码。
 
 aosp比较大，压缩后都有60G左右，解压后有115G左右。hikey-linaro压缩不超过2G。这两个源码官网上 可以下载，但是要翻墙！！！
+
 好在校园网ipv6可以直连Google，但是我在实验室下载很慢，据说寝室下载 要快一些。hikey-linaro我们下载的master分支，前期编译4.4版本，
 后期编译4.9版本。以下描述二个版本可以通用。
 
-下载清华的hikey-linaro镜像
+**下载清华的hikey-linaro镜像**
+
 aosp配套的内核代码
 git clone https://aosp.tuna.tsinghua.edu.cn/kernel.common.git
 
 hikey专用内核镜像
 git clone heeps://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro.git
 
-（二）编译aosp源码。（括号内内容对应de21上的目录）
+**补充一下从清华的镜像下载aosp和相关工具的方法（该方法非常好用）**
+
+详细资料参考他们的官网：
+https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/
+
+* 正常方法只是因为无法翻墙才无法下载，但是可以将 https://android.googlesource.com/ 全部使用 https://aosp.tuna.tsinghua.edu.cn/ 代替即可。
+* 有一个步骤是repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest 该步骤无法完成的原因是repo这个脚本里面默认使用了google的REPO_URL。解法：vim repo，按照下面内容进行修改：
+
+```
+if not REPO_URL:
+  REPO_URL = 'https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+```
+
+scripts:
+```
+#aosp
+mkdir WORKING_DIRECTORY
+cd WORKING_DIRECTORY
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest
+
+#This step may take a very long time
+repo sync -j4
+
+#hikey-linaro
+git clone https://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro
+
+```
+
+**其他资料：**
+aosp在github上的镜像：
+https://github.com/aosp-mirror
+
+96系列板子的linaro-hikey在github上的镜像（补：这个好像是教程）
+https://github.com/96boards-hikey/aosp-device-linaro-hikey
+
+## （二）编译aosp源码。（括号内内容对应de21上的目录）
 
 （cd /mnt/aosp）
 
@@ -27,7 +67,7 @@ lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没
 make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 
 
-（三）编译Hikey-linaro源码
+## （三）编译Hikey-linaro源码
 
 （cd /mnt/hikey-linaro-google/hikey-linaro/）
 
@@ -88,7 +128,7 @@ No such file or directory
 cd arch/arm64/boot/dts/include
 ln -s ../../../../../include/dt-bindings dt-bindings
 
-（四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
+## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
 cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb /mnt/aosp/device/linaro/hikey-kernel
 cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/Image.gz /mnt/aosp/device/linaro/hikey-kernel
@@ -107,7 +147,7 @@ mv Image.gz  Image.gz-hikey960-4.9
 
 
 
-（五）生成boot.img和dt.img。目前我们的操作只要刷boot.img。如果是要刷整个板子的话，那么要按官方文档上的做全套。
+## （五）生成boot.img和dt.img。目前我们的操作只要刷boot.img。如果是要刷整个板子的话，那么要按官方文档上的做全套。
 
 cd /mnt/aosp/
 
@@ -117,7 +157,7 @@ make bootimage out/target/product/hikey960/dt.img
 
 
 
-（六）利用x-ftp将boot.img传递到自己的电脑主机。当然直接在服务器上fastboot和adb调试也是可以的，但是跑到小机房去比较麻烦。
+## （六）利用x-ftp将boot.img传递到自己的电脑主机。当然直接在服务器上fastboot和adb调试也是可以的，但是跑到小机房去比较麻烦。
 
 cd out/target/product/hikey960/
 
@@ -131,7 +171,7 @@ fastboot flash dts 你放dt.img的目录/dt.img
 
 
 
-（七）adb调试。<此时将3拨回来>。管理员身份运行cmd，进入adb.exe路径，可以将fastboot和adb加入PATH，这样可以cmd之后直接fastboot和adb操作。
+## （七）adb调试。<此时将3拨回来>。管理员身份运行cmd，进入adb.exe路径，可以将fastboot和adb加入PATH，这样可以cmd之后直接fastboot和adb操作。
 
 adb devices //连接上数据会出现0123456789...DEF
 
