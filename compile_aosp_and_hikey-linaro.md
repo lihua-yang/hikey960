@@ -4,6 +4,12 @@
 
 官网上的说明是简明概要的，但是在我们的编译过程中其实可能会遇到各种奇奇怪怪的问题。下面就一些 我们踩过的雷给排掉。
 
+## 准备工作
+
+* 交叉编译工具Android NDK [https://developer.android.com/ndk/downloads/index.html](https://developer.android.com/ndk/downloads/index.html)
+* AOSP相关 [https://source.android.com/setup/build/initializing](https://source.android.com/setup/build/initializing)
+* Python3
+
 ## （一）首先就是下载aosp和hikey-linaro的源码。
 
 aosp比较大，压缩后都有60G左右，解压后有115G左右。hikey-linaro压缩不超过2G。这两个源码官网上 可以下载，但是要翻墙！！！
