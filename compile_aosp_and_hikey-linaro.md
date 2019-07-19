@@ -52,10 +52,14 @@ git clone https://aosp.tuna.tsinghua.edu.cn/kernel/hikey-linaro
 **其他资料：**
 
 **可能需要下载HDMI二进制文件**
+
+```
 Download and extract HDMI binaries:
 $ wget https://dl.google.com/dl/android/aosp/arm-hikey960-OPR-cf4e0c80.tgz
 $ tar xzf arm-hikey960-OPR-cf4e0c80.tgz
 $ ./extract-arm-hikey960.sh
+```
+
 我的做法是在能翻墙的电脑上把.tgz文件下载下来然后ftp传到linux服务器上
 
 aosp在github上的镜像：
@@ -74,6 +78,13 @@ lunch hikey960-userdebug//选择的是userdebug模式，可惜我们现在都没
 
 make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 
+**其他需要注意的细节**
+
+1. 不建议使用root用户进行操作，因为会产生warning。
+2. 如果之前使用的是root用户，可以通过 chown -R @username @FILE_DIRECTORY 来修改目录的所有者
+3. 之前下载的HDMI二进制文件解压后，需要放在和aosp同一个目录下（也就是vendor文件夹需要和aosp的其他文件夹在同一个目录下）
+4. 有可能之前下载的HDMI是老版本，此时会弹出warning，可以根据warning的提示，下载新版本的HDMI。
+5. 执行了lunch hikey960-userdebug之后，应该是没有 warning 的只有两排等于号夹起来的系统信息和配置信息。
 
 ## （三）编译Hikey-linaro源码
 
