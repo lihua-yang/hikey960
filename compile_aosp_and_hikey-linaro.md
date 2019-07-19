@@ -6,7 +6,7 @@
 
 ## 准备工作
 
-* 交叉编译工具Android NDK [https://developer.android.com/ndk/downloads/index.html](https://developer.android.com/ndk/downloads/index.html)
+* 交叉编译工具Android NDK [https://developer.android.com/ndk/downloads/index.html](https://developer.android.com/ndk/downloads/index.html) （注意从r18版本开始就不支持使用gcc编译了，而内核编译还是用gcc的，所以我安装的是r16b）
 * AOSP相关 [https://source.android.com/setup/build/initializing](https://source.android.com/setup/build/initializing)
 * Python3
 
@@ -170,6 +170,18 @@ make menuconfig
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24
 ```
 
+这里交叉编译环境需要配置一下，需要使用Android NDK，我下载的是r16b的版本，解压后路径为/mnt/sdc/aosp/android-ndk-r16b/
+在交叉编译之前需要修改环境变量
+```
+PATH=/mnt/sdc/aosp/android-ndk-r16b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin:$PATH
+```
+
+这种方法也可以，就是warning比较多，一天到晚提醒你gcc不用了以后用clang
+
+```
+source build/envsetup.sh
+lunch hikey960-userdebug
+```
 
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
