@@ -85,6 +85,7 @@ make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 3. 之前下载的HDMI二进制文件解压后，需要放在和aosp同一个目录下（也就是vendor文件夹需要和aosp的其他文件夹在同一个目录下）
 4. 有可能之前下载的HDMI是老版本，此时会弹出warning，可以根据warning的提示，下载新版本的HDMI。
 5. 执行了lunch hikey960-userdebug之后，应该是没有 warning 的只有两排等于号夹起来的系统信息和配置信息。
+6. 编译出错有可能是没有安装编译需要的环境，比如python3，可以根据错误提示进一步谷歌。编译环境的需求可看[https://source.android.com/setup/build/initializing](https://source.android.com/setup/build/initializing)
 
 ## （三）编译Hikey-linaro源码
 
