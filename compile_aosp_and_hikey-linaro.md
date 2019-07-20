@@ -236,6 +236,11 @@ cd home/ylh/aosp/device/linaro/hikey-kernel
 mv hi3660-hikey960.dtb hi3660-hikey960.dtb-4.9
 mv Image.gz  Image.gz-hikey960-4.9
 
+### QHW's way
+
+其实刚才第三步编译成功之后，编译好的东西会放在`arch/arm64/boot/`这个目录下，主要是两个文件：`hi3660-hikey960.dtb`和`Image.gz-dtb`。
+现在我们的工作是需要把这编译好的内核和AOSP的东西结合在一起使用。其方法就是把这两个文件copy到aosp的对应目录中，aosp存放内核的目录为` device/VENDOR/NAME-kernel`，在我们这个情况就是`device/linaro/hikey-kernel/`。
+这一步其实是为下一步做准备。
 
 
 ## （五）生成boot.img和dt.img。目前我们的操作只要刷boot.img。如果是要刷整个板子的话，那么要按官方文档上的做全套。
