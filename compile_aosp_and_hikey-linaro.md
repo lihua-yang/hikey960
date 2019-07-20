@@ -1,8 +1,23 @@
 # Compile aosp and hikey-linaro
 
+## 文档
+
 首先最有用的就是官方文档了，附上Google的官网地址。https://source.android.com/source/devices
 
 官网上的说明是简明概要的，但是在我们的编译过程中其实可能会遇到各种奇奇怪怪的问题。下面就一些 我们踩过的雷给排掉。
+
+* Hikey960官方网站：
+
+ [https://www.96boards.org/product/hikey960/](https://www.96boards.org/product/hikey960/)
+
+* Hikey960的aosp编译安装文档：
+
+[https://source.android.com/setup/build/devices#hikey960](https://source.android.com/setup/build/devices#hikey960)
+
+* Hikey960官方预先编译好的代码：
+
+[https://www.96boards.org/documentation/consumer/hikey/hikey960/downloads/aosp.md.html](https://www.96boards.org/documentation/consumer/hikey/hikey960/downloads/aosp.md.html)
+
 
 ## 准备工作
 
