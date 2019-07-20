@@ -185,18 +185,28 @@ make menuconfig
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24
 ```
 
-这里交叉编译环境需要配置一下，需要使用Android NDK，我下载的是r16b的版本，解压后路径为/mnt/sdc/aosp/android-ndk-r16b/
-在交叉编译之前需要修改环境变量
-```
-PATH=/mnt/sdc/aosp/android-ndk-r16b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin:$PATH
-```
+交叉编译遇到的问题和解决方法：
 
-这种方法也可以，就是warning比较多，一天到晚提醒你gcc不用了以后用clang
+1. 交叉编译环境问题：
+
+解法（同上一步骤）：
 
 ```
 source build/envsetup.sh
 lunch hikey960-userdebug
 ```
+
+2. 编译出错
+
+经过不断探索，这个原因是在于make的时候需要访问google网站，而机器无法翻墙导致的。
+
+解法：
+
+grep -b -r "android.googlesource.com" ./
+
+把能够找到的相关的都改为
+
+https://aosp.tuna.tsinghua.edu.cn/
 
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
