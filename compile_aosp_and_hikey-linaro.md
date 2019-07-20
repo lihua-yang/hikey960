@@ -180,7 +180,7 @@ git checkout android-hikey-linaro-4.19
 #生成默认.config文件
 make ARCH=arm64 hikey960_defconfig
 #根据自己的需要进行配置
-make menuconfig
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- menuconfig
 #交叉编译
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24
 ```
