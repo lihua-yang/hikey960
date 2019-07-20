@@ -198,15 +198,22 @@ lunch hikey960-userdebug
 
 2. 编译出错
 
-经过不断探索，这个原因是在于make的时候需要访问google网站，而机器无法翻墙导致的。
+这一步比较麻烦，经过不断探索，这个原因是在于make的时候需要访问google网站，而机器无法翻墙导致的。
 
-解法：
+```
+cd hikey-linaro
+vim kernel/configs/android-fetch-configs.sh
+# 在这里我们看到其实他是要从google上下载一个文件下来然后进行解压，我的解决方法是在自己的能翻墙的电脑上把这个文件下载下来，然后FTP到服务器上放置在
+/mnt/sdc/aosp/temp/configs-master-android-4.9.tar.gz
+# 然后我修改这个我们用vim打开的文件
+cp /mnt/sdc/aosp/temp/configs-master-android-4.9.tar.gz ./
+tar -xvzf configs-master-android-4.9.tar.gz
+```
 
-grep -b -r "android.googlesource.com" ./
+使用默认的config，就可以编译通过了（由于默认的编译方式是使用gcc而不是clang，所以报了一堆warning，不过最后还是通过了）.
 
-把能够找到的相关的都改为
+不过现在我也不知道是因为这个原因还是因为我现在编译使用的是默认config。
 
-https://aosp.tuna.tsinghua.edu.cn/
 
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
