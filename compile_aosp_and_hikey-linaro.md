@@ -221,13 +221,13 @@ tar -xvzf configs-master-android-4.9.tar.gz
 
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
+```
 cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb /mnt/aosp/device/linaro/hikey-kernel
 cp /mnt/hikey-linaro-google/hikey-linaro/arch/arm64/boot/Image.gz /mnt/aosp/device/linaro/hikey-kernel
-
 cd /mnt/aosp/device/linaro/hikey-kernel
-
-
-////下面的是在ca01上：
+```
+```
+# 下面的是在ca01上：
 cp /home/ylh/hikey960/hikey-linaro/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb /home/ylh/aosp/device/linaro/hikey-kernel
 cp /home/ylh/hikey960/hikey-linaro/arch/arm64/boot/Image.gz /home/ylh/aosp/device/linaro/hikey-kernel
 cd home/ylh/aosp/device/linaro/hikey-kernel
@@ -235,6 +235,7 @@ cd home/ylh/aosp/device/linaro/hikey-kernel
 
 mv hi3660-hikey960.dtb hi3660-hikey960.dtb-4.9
 mv Image.gz  Image.gz-hikey960-4.9
+```
 
 ### QHW's way
 
@@ -245,23 +246,23 @@ mv Image.gz  Image.gz-hikey960-4.9
 
 ## （五）生成boot.img和dt.img。目前我们的操作只要刷boot.img。如果是要刷整个板子的话，那么要按官方文档上的做全套。
 
+```
 cd /mnt/aosp/
-
 make bootimage
-
 make bootimage out/target/product/hikey960/dt.img
-
+```
 
 
 ## （六）利用x-ftp将boot.img传递到自己的电脑主机。当然直接在服务器上fastboot和adb调试也是可以的，但是跑到小机房去比较麻烦。
 
-cd out/target/product/hikey960/
+   cd out/target/product/hikey960/
 
 在主机windows桌面上建立一个放boot.img的文件夹或直接放到桌面上，随自己开心吧。拨3，拨到与1方向一致
 
+```
 fastboot flash boot 你放boot.img的目录/boot.img
-
 fastboot flash dts 你放dt.img的目录/dt.img
+```
 
 成功会显示刷进去多少s，时间很短。
 
