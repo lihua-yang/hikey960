@@ -175,14 +175,17 @@ ln -s ../../../../../include/dt-bindings dt-bindings
 cd hikey-linaro
 #查看有什么分支
 git branch -a
-#切换至分支android-hikey-linaro-4.19
-git checkout android-hikey-linaro-4.19
+#切换至分支android-hikey-linaro-4.9
+git checkout -b android-hikey-linaro-4.9 origin/android-hikey-linaro-4.9
+#配置一下环境变量
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-android-
 #生成默认.config文件
-make ARCH=arm64 hikey960_defconfig
+make hikey960_defconfig
 #根据自己的需要进行配置
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- menuconfig
+make menuconfig
 #交叉编译
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24
+make -j24
 ```
 
 交叉编译遇到的问题和解决方法：
@@ -216,7 +219,7 @@ tar -xvzf configs-master-android-4.9.tar.gz
 
 可能的原因2：
 
-修改config的时候，仍然需要ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-，不能简单的make menuconfig
+修改config的时候，仍然需要ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-，不能简单的make menuconfig。用export的方式会比较好。
 
 
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
