@@ -107,6 +107,7 @@ make -j32 //编译时间2h-4h不等，编译一遍后再编译会快一些
 4. 有可能之前下载的HDMI是老版本，此时会弹出warning，可以根据warning的提示，下载新版本的HDMI。
 5. 执行了lunch hikey960-userdebug之后，应该是没有 warning 的只有两排等于号夹起来的系统信息和配置信息。
 6. 编译出错有可能是没有安装编译需要的环境，比如python3，可以根据错误提示进一步谷歌。编译环境的需求可看[https://source.android.com/setup/build/initializing](https://source.android.com/setup/build/initializing)
+7. `lunch hikey960-userdebug`之后其实hikey960会帮你选一个内核版本，所以在make的时候，其实内核的版本已经选好了。这个选择内核版本的代码非常隐蔽，但是[https://discuss.96boards.org/t/hikey960-aosp-kernel-build/4496/9](https://discuss.96boards.org/t/hikey960-aosp-kernel-build/4496/9)给出了答案，其实在`device/linaro/hikey/hikey960.mk`中有设定默认值。如果需要自己手动指定，可以在后面make的时候设置`TARGET_KERNEL_USE=4.9`来手动指定内核版本（注意，如果这样设置了，那后面在make bootimage之类的也需要手动指定）
 
 ## （三）编译Hikey-linaro源码
 
