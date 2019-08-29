@@ -1,5 +1,7 @@
+# 将data分区改为f2fs
+
 在想办法在data分区下分12G为f2f后，还是想把整个data格式化f2fs。主要参考hikey960社区
-https://discuss.96boards.org/t/f2fs-filesystem-support-on-hikey960/3685
+[https://discuss.96boards.org/t/f2fs-filesystem-support-on-hikey960/3685](https://discuss.96boards.org/t/f2fs-filesystem-support-on-hikey960/3685)
 
 1.把整个/data分区24G都格式化为f2fs。
 所以partion-table-tool中相关的选项不用修改，仍然是24G的sdd13的data分区。
@@ -42,3 +44,4 @@ fastboot flash system system.img
 fastboot flash cache cache.img
 fastboot flash userdata userdata.img
 fastboot reboot
+
