@@ -8,7 +8,7 @@
 很重要的是，
 cd /home/ylh/aosp/device/linaro/hikey/hikey960
 vim fstab.hikey960 
-修改“dev/block/sdd13 /data f2fs nosuid,nodev,discard wait”
+修改data分区属性为：“dev/block/sdd13 /data f2fs nosuid,nodev,discard wait”
 vim BoardConfig.mk
 添加
 TARGET_USERIMAGES_USE_F2FS := true
