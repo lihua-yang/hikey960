@@ -224,7 +224,29 @@ tar -xvzf configs-master-android-4.9.tar.gz
 
 修改config的时候，仍然需要ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-，不能简单的make menuconfig。用export的方式会比较好。
 
-
+3. 编译make ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- -j24 时可能出现的错误：
+```
+arch/arm64/Makefile:27: ld does not support --fix-cortex-a53-843419; kernel may be susceptible to erratum
+./scripts/gcc-version.sh: line 25: aarch64-linux-android-gcc: command not found
+./scripts/gcc-version.sh: line 26: aarch64-linux-android-gcc: command not found
+make: aarch64-linux-android-gcc: Command not found
+make: aarch64-linux-android-gcc: Command not found
+  CHK     include/config/kernel.release
+make: aarch64-linux-android-gcc: Command not found
+Cannot use CONFIG_CC_STACKPROTECTOR_STRONG: -fstack-protector-strong not supported by compiler
+Makefile:1182: recipe for target 'prepare-compiler-check' failed
+make: *** [prepare-compiler-check] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** wait: No child processes.  Stop.
+```
+原因是没有找到前面安装的NDK里面的aarch64-linux-android-gcc编译器
+aarch64-linux-android-gcc位于NDK目下android-ndk-r16b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin
+解决办法就是在环境变量PATH上加上这个目录就写
+```
+export NDK=/mnt/ssd/android-ndk-r16bi
+export AARCH=/mnt/ssd/android-ndk-r16b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin
+export PATH=$AARCH:$NDK:$PATH
+```
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
 ```
