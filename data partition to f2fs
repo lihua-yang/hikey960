@@ -41,6 +41,7 @@ fastboot flash trustfirmware bl31.bin
 fastboot flash boot boot.img
 fastboot flash dts dt.img
 fastboot flash system system.img
+fastboot flash vendor out/target/product/hikey960/vendor.img
 fastboot flash cache cache.img
 fastboot flash userdata userdata.img
 fastboot reboot
