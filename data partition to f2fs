@@ -25,6 +25,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 3.编译整个aosp时，
 make BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE=f2fs TARGET_USERIMAGES_USE_F2FS=true -j32
+make BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE=f2fs TARGET_USERIMAGES_USE_F2FS=true userdataimage -j32
 
 注意，刷完ptable.img之后要重启板子，是的分区表起作用
 #/device/linaro/hikey/installer/hikey960
