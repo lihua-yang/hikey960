@@ -294,6 +294,9 @@ fastboot flash dts 你放dt.img的目录/dt.img
 
 成功会显示刷进去多少s，时间很短。
 
+fastboot 报错问题参考：
+https://bbs.ixmoe.com/t/topic/17256
+
 
 
 ## （七）adb调试。<此时将3拨回来>。管理员身份运行cmd，进入adb.exe路径，可以将fastboot和adb加入PATH，这样可以cmd之后直接fastboot和adb操作。
