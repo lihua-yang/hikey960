@@ -271,6 +271,7 @@ mv Image.gz  Image.gz-hikey960-4.9
 现在我们的工作是需要把这编译好的内核和AOSP的东西结合在一起使用。其方法就是把这两个文件copy到aosp的对应目录中，aosp存放内核的目录为` device/VENDOR/NAME-kernel`，在我们这个情况就是`device/linaro/hikey-kernel/`。
 这一步其实是为下一步做准备。
 
+### PS
 2020-06-09后的更新：Switch to using <board>/<kernel ver>/<file> rather then <file>-<board>-<kernel ver>
  也就是说hi3660-hikey960.dtb 和 Image.gz直接复制到目录hikey-kernel/hikey960/4.9下面，之前是用后缀名的方式命名，现在以目录的方式命名。（没有4.9这个子目录，可以自己创建一个）
 https://cs.android.com/android/_/android/device/linaro/hikey-kernel/+/cc19ab9f1d4653593baa5f113cbcd9b2d7e662cb:hikey960/;bpv=1;bpt=0;drc=650d521ebff78c63c707070b213c4761c9aff65e
