@@ -53,6 +53,11 @@ if not REPO_URL:
   REPO_URL = 'https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
 ```
 
+可能的error:
+```AttributeError: 'str' object has no attribute 'decode'```
+解决方法：直接去掉代码 ```decode('utf8')```
+
+
 scripts:
 ```
 #aosp
