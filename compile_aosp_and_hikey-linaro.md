@@ -343,3 +343,8 @@ dmesg //此时dmesg可以看到打印出来的挂载信息
 cd /data/f2fs
 
 cat test.txt //可以读取指定文件的内容
+
+
+关闭ssr:
+echo 0 > min_ssr_sections
+
