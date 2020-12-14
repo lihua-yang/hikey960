@@ -345,6 +345,5 @@ cd /data/f2fs
 cat test.txt //可以读取指定文件的内容
 
 
-关闭ssr:
-echo 0 > min_ssr_sections
-
+关闭ssr:    
+echo 0 > /sys/fs/f2fs/sdd14/min_ssr_sections
