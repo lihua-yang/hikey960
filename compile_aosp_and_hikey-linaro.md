@@ -312,6 +312,9 @@ fastboot 报错问题参考：
 https://bbs.ixmoe.com/t/topic/17256
 
 
+adb 和 fastboot 找不到设备的解决方法：
+windows可能缺少了adb usb驱动，可以在官网找到这个驱动然后安装，但是我没有成功。
+简单粗暴的方法：下载驱动精灵，让它自动给我下载一个Android手机驱动，然后就可以了。
 
 ## （七）adb调试。<此时将3拨回来>。管理员身份运行cmd，进入adb.exe路径，可以将fastboot和adb加入PATH，这样可以cmd之后直接fastboot和adb操作。
 
