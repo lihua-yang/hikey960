@@ -254,7 +254,12 @@ export AARCH=/mnt/ssd/android-ndk-r16b/toolchains/aarch64-linux-android-4.9/preb
 export PATH=$AARCH:$NDK:$PATH
 ```
 
-4. 编译较新版本内核时，因为gcc被弃用，可以使用gnu的交叉编译器
+4. 编译较新版本内核时，报错
+```
+./include/linux/compiler-gcc.h:164:38: error: impossible constraint in 'asm'
+ #define asm_volatile_goto(x...) do { asm goto(x); asm (""); } while (0)
+```
+这是因为gcc被弃用，现在使用的gcc编译器版本太老，可以使用gnu的交叉编译器
  ```sudo apt install aarch64-linux-gnu-
  export CROSS_COMPILE=aarch64-linux-gnu-  
  ```
