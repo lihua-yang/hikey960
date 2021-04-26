@@ -253,6 +253,11 @@ export NDK=/mnt/ssd/android-ndk-r16bi
 export AARCH=/mnt/ssd/android-ndk-r16b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin
 export PATH=$AARCH:$NDK:$PATH
 ```
+
+4. 编译较新版本内核时，因为gcc被弃用，可以使用gnu的交叉编译器
+ ```sudo apt install aarch64-linux-gnu-
+ export CROSS_COMPILE=aarch64-linux-gnu-```
+
 ## （四）按照官方文档中所说的那样复制hikey960.dtb和Image.gz到指定目录生成boot.img。在de21上的相关语句如下：     
 
 ```
