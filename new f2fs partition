@@ -51,7 +51,7 @@ fastboot reboot
 
 
 
-//以下不做，为另一种方法格式化f2fs（用mkfa.f2fs）
+//以下不做，为另一种方法格式化f2fs（用mkfs.f2fs）
 新建分f2fs
 先修改system为可读写，才能push mkfs.f2fs进去
 adb push E:\mkfs.f2fs /system/bin 
