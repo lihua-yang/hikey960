@@ -176,6 +176,7 @@ arch/arm64/boot/dts/arm/juno.dts:11:54: fatal error: dt-bindings/interrupt-contr
 No such file or directory
 
 cd arch/arm64/boot/dts/include
+
 ln -s ../../../../../include/dt-bindings dt-bindings
 
 ### QHW's way
