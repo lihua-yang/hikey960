@@ -335,6 +335,36 @@ hikey960:/ # uname -r
 
 (5) blkid:   
 ```
+hikey960:/ # blkid
+/dev/block/loop0: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop1: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop2: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop3: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop4: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop5: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop6: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop7: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop8: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop9: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop10: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop11: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop12: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop13: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop14: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop15: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/sdd5: UUID="57f8f4bc-abf4-655f-bf67-946fc0f9f25b" TYPE="ext4" 
+/dev/block/sdd11: LABEL="vendor" UUID="774de7f3-5834-56f1-8b17-d77ff7eacf11" TYPE="ext4" 
+/dev/block/sdd13: UUID="0f266447-7414-4b61-b874-16b54825d012" TYPE="f2fs" 
+/dev/block/loop16: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop17: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop18: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop19: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop20: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop21: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop22: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop23: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop24: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
+/dev/block/loop25: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4" 
 ```
 compile android kernel 5.4
 ============
