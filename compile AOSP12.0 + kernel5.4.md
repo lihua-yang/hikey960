@@ -381,7 +381,11 @@ repo sync -j8 -c
 rm -rf out
 BUILD_CONFIG=common/build.config.hikey960 build/build.sh
 ```
-注意其中的rm -rf out的out文件夹是在编译一次后出现的镜像文件夹，第一次时可以不用删除。此外，如果编译过程中出现奇怪的bug，大概率是repo sync源码时不完整，需要再sync一次。另外，报关于python程序运行的问题时，多半是与python2与python3的版本相关。因为android kernel编译时使用python3，而第一次使用repo时使用系统默认的python2，此处有冲突，可以用指定路径的repo来sync。如在big77机器上使用：~/.bin/repo sync -j8 -c    
+注意其中的rm -rf out的out文件夹是在编译一次后出现的镜像文件夹，第一次时可以不用删除。此外，如果编译过程中出现奇怪的bug，大概率是repo sync源码时不完整，需要再sync一次。另外，报关于python程序运行的问题时，多半是与python2与python3的版本相关。因为android kernel编译时使用python3，而第一次使用repo时使用系统默认的python2，此处有冲突，可以用指定路径的repo来sync。如在big77机器上使用：~/.bin/repo sync -j8 -c      
+翻墙设置：    
+https://notes-by-yangjinjie.readthedocs.io/zh_CN/latest/os/ubuntu-debian/Ubuntu%20Server%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AEshadowsocks%E5%85%A8%E5%B1%80%E4%BB%A3%E7%90%86.html     
+https://www.cnblogs.com/yifeichongtian/p/14091231.html    
+
 
 # 2.删除与串联dtb
 删除 ${AOSP_TOPDIR}device/linaro/hikey-kernel/hikey960/5.4/ 中的所有对象，然后将 out/android12-5.4/dist/ 中的内核 build 中的 build 工件复制到 ${AOSP_TOPDIR}/device/linaro/hikey-kernel/hikey960/5.4/    
