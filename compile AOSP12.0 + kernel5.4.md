@@ -407,3 +407,132 @@ hikey960:/ # uname -a
 Linux localhost 5.4.147-android12-9 #1 SMP PREEMPT Wed Dec 15 20:28:35 UTC 2021 aarch64
 ```
 版本号由之前的5.4.96变为了5.4.147   
+
+data=8GB f2fs
+============
+# 1.data=8GB
+通过修改BoardConfig.mk修改data分区大小即可，其他fstab.hikey960等文件不用修改，hisi-ptable.img也无需修改。    
+vim device/linaro/hikey/hikey960/BoardConfig.mk 
+```
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
+#BOARD_USERDATAIMAGE_PARTITION_SIZE := 25845301248 # 24648MB
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 8589934592    #8GB
+BOARD_FLASH_BLOCK_SIZE := 512
+```
+
+# 2.compile AOSP with data=f2fs
+在AOSP目录    
+```
+. ./build/envsetup.sh
+lunch hikey960-userdebug
+make TARGET_KERNEL_USE=5.4 HIKEY_USES_GKI=true -j24
+make BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE=f2fs TARGET_USERIMAGES_USE_F2FS=true TARGET_KERNEL_USE=5.4 HIKEY_USES_GKI=true -j32
+```
+
+# 3.fastboot flash
+在flash-all.sh中经过不同的判断条件刷录的镜像比较多，在windows下刷录镜像的bat文件修改为如下所示    
+vim device/linaro/hikey/installer/hikey960/flash-all.sh    
+在flash-all.sh中没有刷录data.img，直接刷录时data分区是f2fs，但修改data分区大小为8GB后，刷录的data分区为ext4，不能禁用fstab.hikey960中USERDATAIMAGE关于ext4的设置，板子会无法adb，需要刷录data.img    
+```
+    fastboot flash ptable prm_ptable.img
+	fastboot flash xloader hisi-sec_xloader.img
+	fastboot reboot-bootloader
+
+	fastboot flash fastboot l-loader.bin
+	fastboot flash fip fip.bin
+	fastboot flash nvme hisi-nvme.img
+	fastboot flash fw_lpm3 hisi-lpm3.img
+	fastboot flash trustfirmware hisi-bl31.bin
+	fastboot reboot-bootloader
+
+	fastboot flash ptable prm_ptable.img
+	fastboot flash xloader hisi-sec_xloader.img
+	fastboot flash fastboot l-loader.bin
+	fastboot flash fip fip.bin
+
+	fastboot flash boot boot.img
+	fastboot flash super super.img
+	fastboot flash userdata  userdata.img
+	fastboot format cache
+
+::    fastboot flash xloader hisi-sec_xloader.img
+::	fastboot flash ptable hisi-ptable.img
+::	fastboot flash fastboot hisi-fastboot.img
+::	fastboot reboot-bootloader
+fastboot reboot
+pause
+```
+
+# 4.刷录结果log
+在刷录时有fastboot flash fastboot l-loader.bin和第二次的fastboot flash ptable prm_ptable.img的write失败，但是不影响板子正常运行    
+```
+hikey960:/ # blkid
+/dev/block/loop0: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop1: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop2: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop3: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop4: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop5: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop6: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop7: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop8: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop9: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop10: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop11: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop12: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop13: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop14: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop15: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/sdd5: UUID="547a110a-76ac-11ec-96af-457af1b70166" TYPE="ext4"
+/dev/block/sdd11: LABEL="vendor" UUID="774de7f3-5834-56f1-8b17-d77ff7eacf11" TYPE="ext4"
+/dev/block/sdd13: UUID="5739724d-eb62-4e34-8524-2ee203981da9" TYPE="f2fs"
+/dev/block/loop16: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop17: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop18: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop19: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop20: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop21: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop22: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop23: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop24: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+/dev/block/loop25: UUID="7d1522e1-9dfa-5edb-a43e-98e3a4d20250" TYPE="ext4"
+
+hikey960:/ # df -h
+Filesystem        Size Used Avail Use% Mounted on
+/dev/block/dm-0   795M 793M  2.4M 100% /
+tmpfs             1.4G 1.0M  1.4G   1% /dev
+tmpfs             1.4G    0  1.4G   0% /mnt
+/dev/block/dm-1   201M 201M  628K 100% /vendor
+/dev/block/dm-2   127M 126M  408K 100% /system_ext
+/dev/block/dm-3   229M 228M  712K 100% /product
+tmpfs             1.4G  12K  1.4G   1% /apex
+tmpfs             1.4G 464K  1.4G   1% /linkerconfig
+/dev/block/sdd13  7.9G 586M  7.4G   8% /data
+/dev/block/sdd5   232M 120K  232M   1% /metadata
+tmpfs             1.4G    0  1.4G   0% /data_mirror
+/dev/block/loop6  1.6M 1.6M   28K  99% /apex/com.android.os.statsd@319999900
+/dev/block/loop7  232K 152K   80K  66% /apex/com.android.scheduling@319999900
+/dev/block/loop5   40M  40M   28K 100% /apex/com.android.vndk.v31@1
+/dev/block/loop8  832K 804K   28K  97% /apex/com.android.tzdata@319999900
+/dev/block/loop10  35M  35M   32K 100% /apex/com.android.i18n@1
+/dev/block/loop11 700K 672K   28K  96% /apex/com.android.sdkext@319999900
+/dev/block/loop4  4.8M 4.8M   28K 100% /apex/com.android.conscrypt@319999900
+/dev/block/loop13 232K  88K  144K  38% /apex/com.android.apex.cts.shim@1
+/dev/block/loop9  2.0M 1.9M   28K  99% /apex/com.android.appsearch@300000000
+/dev/block/loop12 7.5M 7.5M   36K 100% /apex/com.android.runtime@1
+/dev/block/dm-5   2.6M 2.5M   28K  99% /apex/com.android.tethering@319999900
+/dev/block/dm-7   7.9M 7.9M   28K 100% /apex/com.android.neuralnetworks@319999900
+/dev/block/dm-4   8.2M 8.2M   32K 100% /apex/com.android.adbd@319999999
+/dev/block/dm-6   692K 664K   28K  96% /apex/com.android.ipsec@319999900
+/dev/block/dm-11   60M  60M   36K 100% /apex/com.android.art@319999900
+/dev/block/dm-8   2.4M 2.4M   28K  99% /apex/com.android.resolv@319999900
+/dev/block/dm-9   5.6M 5.5M   28K 100% /apex/com.android.wifi@319999900
+/dev/block/dm-12  5.3M 5.3M   32K 100% /apex/com.android.extservices@319999900
+/dev/block/dm-10   19M  19M   32K 100% /apex/com.android.media.swcodec@319999900
+/dev/block/dm-14  6.5M 6.4M   28K 100% /apex/com.android.media@319999900
+/dev/block/dm-13   18M  18M   28K 100% /apex/com.android.permission@319999900
+/dev/block/dm-15  4.2M 4.1M   32K 100% /apex/com.android.mediaprovider@319999910
+
+hikey960:/ # uname -a
+Linux localhost 5.4.147-android12-9-dirty #1 SMP PREEMPT Wed Dec 15 20:28:35 UTC 2021 aarch64
+```
