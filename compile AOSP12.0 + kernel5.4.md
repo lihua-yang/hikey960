@@ -462,6 +462,129 @@ vim device/linaro/hikey/installer/hikey960/flash-all.sh
 fastboot reboot
 pause
 ```
+补充一个刷录输出log   
+```
+I:\1\atgc-8G-printk>fastboot flash ptable prm_ptable.img
+Sending 'ptable' (24 KB)                           OKAY [  0.008s]
+Writing 'ptable'                                   OKAY [  0.002s]
+Finished. Total time: 0.029s
+
+I:\1\atgc-8G-printk>fastboot flash xloader hisi-sec_xloader.img
+Sending 'xloader' (151 KB)                         OKAY [  0.017s]
+Writing 'xloader'                                  OKAY [  0.152s]
+Finished. Total time: 0.185s
+
+I:\1\atgc-8G-printk>fastboot reboot-bootloader
+Rebooting into bootloader                          OKAY [  0.000s]
+Finished. Total time: 0.026s
+
+I:\1\atgc-8G-printk>fastboot flash fastboot l-loader.bin
+Sending 'fastboot' (25 KB)                         FAILED (Write to device failed (Unknown error))
+fastboot: error: Command failed
+
+I:\1\atgc-8G-printk>fastboot flash fip fip.bin
+< waiting for any device >
+Sending 'fip' (1483 KB)                            OKAY [  0.074s]
+Writing 'fip'                                      OKAY [  0.249s]
+Finished. Total time: 0.354s
+
+I:\1\atgc-8G-printk>fastboot flash nvme hisi-nvme.img
+Sending 'nvme' (128 KB)                            OKAY [  0.029s]
+Writing 'nvme'                                     OKAY [  0.053s]
+Finished. Total time: 0.097s
+
+I:\1\atgc-8G-printk>fastboot flash fw_lpm3 hisi-lpm3.img
+Sending 'fw_lpm3' (212 KB)                         OKAY [  0.027s]
+Writing 'fw_lpm3'                                  OKAY [  0.053s]
+Finished. Total time: 0.093s
+
+I:\1\atgc-8G-printk>fastboot flash trustfirmware hisi-bl31.bin
+Sending 'trustfirmware' (145 KB)                   OKAY [  0.015s]
+Writing 'trustfirmware'                            OKAY [  0.053s]
+Finished. Total time: 0.082s
+
+I:\1\atgc-8G-printk>fastboot reboot-bootloader
+Rebooting into bootloader                          OKAY [  0.000s]
+Finished. Total time: 0.003s
+
+I:\1\atgc-8G-printk>fastboot flash ptable prm_ptable.img
+Sending 'ptable' (24 KB)                           FAILED (Write to device failed (Unknown error))
+fastboot: error: Command failed
+
+I:\1\atgc-8G-printk>fastboot flash xloader hisi-sec_xloader.img
+< waiting for any device >
+Sending 'xloader' (151 KB)                         OKAY [  0.010s]
+Writing 'xloader'                                  OKAY [  0.156s]
+Finished. Total time: 0.207s
+
+I:\1\atgc-8G-printk>fastboot flash fastboot l-loader.bin
+Sending 'fastboot' (25 KB)                         OKAY [  0.008s]
+Writing 'fastboot'                                 OKAY [  0.052s]
+Finished. Total time: 0.085s
+
+I:\1\atgc-8G-printk>fastboot flash fip fip.bin
+Sending 'fip' (1483 KB)                            OKAY [  0.071s]
+Writing 'fip'                                      OKAY [  0.079s]
+Finished. Total time: 0.164s
+
+I:\1\atgc-8G-printk>fastboot flash boot boot.img
+Sending 'boot' (19382 KB)                          OKAY [  0.596s]
+Writing 'boot'                                     OKAY [  0.214s]
+Finished. Total time: 1.396s
+
+I:\1\atgc-8G-printk>fastboot flash super super.img
+Sending sparse 'super' 1/11 (131068 KB)            OKAY [  4.694s]
+Writing 'super'                                    OKAY [  1.026s]
+Sending sparse 'super' 2/11 (131068 KB)            OKAY [  4.687s]
+Writing 'super'                                    OKAY [  0.896s]
+Sending sparse 'super' 3/11 (131045 KB)            OKAY [  5.144s]
+Writing 'super'                                    OKAY [  1.117s]
+Sending sparse 'super' 4/11 (126301 KB)            OKAY [  4.218s]
+Writing 'super'                                    OKAY [  0.907s]
+Sending sparse 'super' 5/11 (129572 KB)            OKAY [  4.622s]
+Writing 'super'                                    OKAY [  0.894s]
+Sending sparse 'super' 6/11 (131068 KB)            OKAY [  4.836s]
+Writing 'super'                                    OKAY [  0.979s]
+Sending sparse 'super' 7/11 (120876 KB)            OKAY [  4.260s]
+Writing 'super'                                    OKAY [  0.894s]
+Sending sparse 'super' 8/11 (127912 KB)            OKAY [  4.552s]
+Writing 'super'                                    OKAY [  0.924s]
+Sending sparse 'super' 9/11 (126829 KB)            OKAY [  4.814s]
+Writing 'super'                                    OKAY [  0.990s]
+Sending sparse 'super' 10/11 (131068 KB)           OKAY [  4.074s]
+Writing 'super'                                    OKAY [  0.933s]
+Sending sparse 'super' 11/11 (82576 KB)            OKAY [  2.504s]
+Writing 'super'                                    OKAY [  0.624s]
+Finished. Total time: 59.229s
+
+I:\1\atgc-8G-printk>fastboot flash userdata  userdata.img
+Sending 'userdata' (2484 KB)                       OKAY [  0.118s]
+Writing 'userdata'                                 OKAY [  0.390s]
+Finished. Total time: 0.541s
+
+I:\1\atgc-8G-printk>fastboot format cache
+mke2fs 1.45.4 (23-Sep-2019)
+Creating filesystem with 65536 4k blocks and 65536 inodes
+Filesystem UUID: 91fa2b1e-772e-11ec-8f57-574f4ddf4fb2
+Superblock backups stored on blocks:
+        32768
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+Sending 'cache' (56 KB)                            OKAY [  0.014s]
+Writing 'cache'                                    OKAY [  0.003s]
+Finished. Total time: 26.283s
+
+I:\1\atgc-8G-printk>fastboot reboot
+Rebooting                                          OKAY [  0.001s]
+Finished. Total time: 0.004s
+
+I:\1\atgc-8G-printk>pause
+请按任意键继续. . .
+```
 
 # 4.刷录结果log
 在刷录时有fastboot flash fastboot l-loader.bin和第二次的fastboot flash ptable prm_ptable.img的write失败，但是不影响板子正常运行    
